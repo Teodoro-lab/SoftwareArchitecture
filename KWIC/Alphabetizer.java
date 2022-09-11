@@ -2,12 +2,11 @@ package KWIC;
 
 import java.util.Arrays;
 
-import LayeredArchitecture.Layer;
+import PipesAndFilters.Filter;
 
-public class Alphabetizer extends Layer {
-    private String[][] combinations;
+public class Alphabetizer extends Filter {
 
-    private String[] matrixOfWordsToArray() {
+    private String[] matrixOfWordsToArray(String[][] combinations) {
         String[] resultantPhrases = new String[combinations.length];
 
         int i = 0;
@@ -19,16 +18,17 @@ public class Alphabetizer extends Layer {
         return resultantPhrases;
     }
 
-    public String[] alphabetize() {
-        String[] phrases = matrixOfWordsToArray();
+    public String[] alphabetize(String[][] combinations) {
+        String[] phrases = matrixOfWordsToArray(combinations);
         Arrays.sort(phrases, String.CASE_INSENSITIVE_ORDER);
         return phrases;
     }
 
     @Override
-    public Object execute(Object obj) {
-        combinations = (String[][]) obj;
-        return alphabetize();
+    public void filter(Object obj) {
+        String[][] combinations = (String[][]) obj;
+        String[] phrases = alphabetize(combinations);
+        sendInformation(phrases);
     }
 
 }

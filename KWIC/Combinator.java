@@ -1,7 +1,8 @@
 package KWIC;
 
-public class Combinator extends Layer {
-    private String[] tokens;
+import PipesAndFilters.Filter;
+
+public class Combinator extends Filter {
 
     private void shiftValues(String[] tokens) {
         String lastString = tokens[tokens.length - 1];
@@ -26,9 +27,9 @@ public class Combinator extends Layer {
     }
 
     @Override
-    public Object execute(Object obj) {
-        tokens = (String[]) obj;
+    public void filter(Object obj) {
+        String[] tokens = (String[]) obj;
         String[][] combinations = combinations(tokens);
-        return super.executeNextLayer(combinations);
+        sendInformation(combinations);
     }
 }

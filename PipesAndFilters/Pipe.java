@@ -1,14 +1,25 @@
 package PipesAndFilters;
 
 public class Pipe {
-    Object info;
+    private Filter outFilter;
+    private Object information;
 
-    public Object getInfo() {
-        return info;
+    public void sendInformation() {
+        outFilter.filter(information);
     }
 
-    public void setInfo(Object info) {
-        this.info = info;
+    public void setOutFilter(Filter outFilter) {
+        this.outFilter = outFilter;
+    }
+
+    public Object getInformation() {
+        return information;
+    }
+
+    public void setInformation(Object information) {
+        this.information = information;
+        if (outFilter != null)
+            sendInformation();
     }
 
 }

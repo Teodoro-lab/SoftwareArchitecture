@@ -1,20 +1,19 @@
 package KWIC;
 
-import LayeredArchitecture.Layer;
+import PipesAndFilters.Filter;
 
-public class Tokenizer extends Layer {
-    private String phrase;
+public class Tokenizer extends Filter {
 
-    public String[] tokenize() {
+    public String[] tokenize(String phrase) {
         String[] tokens = phrase.split(" ");
         return tokens;
     }
 
     @Override
-    public Object execute(Object obj) {
-        phrase = (String) obj;
-        String[] tokens = tokenize();
-        return super.executeNextLayer(tokens);
+    public void filter(Object obj) {
+        String phrase = (String) obj;
+        String[] tokens = tokenize(phrase);
+        sendInformation(tokens);
     }
 
 }
