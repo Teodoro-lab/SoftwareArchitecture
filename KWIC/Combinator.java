@@ -30,6 +30,6 @@ public class Combinator extends Filter {
     public void filter(Object obj) {
         String[] tokens = (String[]) obj;
         String[][] combinations = combinations(tokens);
-        sendInformation(combinations);
+        sendNextPipeInfo(combinations);
     }
 }

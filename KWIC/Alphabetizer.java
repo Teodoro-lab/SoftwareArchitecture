@@ -28,7 +28,7 @@ public class Alphabetizer extends Filter {
     public void filter(Object obj) {
         String[][] combinations = (String[][]) obj;
         String[] phrases = alphabetize(combinations);
-        sendInformation(phrases);
+        sendNextPipeInfo(phrases);
     }
 
 }

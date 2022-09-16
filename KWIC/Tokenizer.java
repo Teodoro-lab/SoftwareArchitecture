@@ -13,7 +13,7 @@ public class Tokenizer extends Filter {
     public void filter(Object obj) {
         String phrase = (String) obj;
         String[] tokens = tokenize(phrase);
-        sendInformation(tokens);
+        sendNextPipeInfo(tokens);
     }
 
 }

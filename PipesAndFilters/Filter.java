@@ -9,8 +9,8 @@ public abstract class Filter {
         this.nextPipe = nextPipe;
     }
 
-    public void sendInformation(Object information) {
-        nextPipe.setInformation(information);
+    public void sendNextPipeInfo(Object information) {
+        nextPipe.sendInfoToFilter(information);
     }
 
 }

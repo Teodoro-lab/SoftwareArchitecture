@@ -21,34 +21,42 @@ class Main {
         }
     }
 
-    public static void main(String[] args) {
-
+    public static Pipe[] createArchitectureStructure() {
         Pipe pipe1 = new Pipe();
+        Filter filter1 = new Tokenizer();
         Pipe pipe2 = new Pipe();
+        Filter filter2 = new Combinator();
         Pipe pipe3 = new Pipe();
+        Filter filter3 = new Alphabetizer();
         Pipe pipe4 = new Pipe();
 
-        Filter filter1 = new Tokenizer();
-        Filter filter2 = new Combinator();
-        Filter filter3 = new Alphabetizer();
-
-        pipe1.setOutFilter(filter1);
+        pipe1.setNextFilter(filter1);
         filter1.setNextPipe(pipe2);
 
-        pipe2.setOutFilter(filter2);
+        pipe2.setNextFilter(filter2);
         filter2.setNextPipe(pipe3);
 
-        pipe3.setOutFilter(filter3);
+        pipe3.setNextFilter(filter3);
         filter3.setNextPipe(pipe4);
+
+        return new Pipe[] { pipe1, pipe4 };
+    }
+
+    public static void main(String[] args) {
+
+        Pipe[] InNOutPipes = createArchitectureStructure();
+        Pipe inPipe = InNOutPipes[0];
+        Pipe outPipe = InNOutPipes[1];
 
         System.out.println("Ingrese la frase");
         String input = readInputString();
-        pipe1.setInformation(input);
 
-        Object returnedObj = pipe4.getInformation();
+        inPipe.sendInfoToFilter(input);
+
+        Object returnedObj = outPipe.getInformation();
         String[] phrases = (String[]) returnedObj;
 
-        System.out.println("Imprimiendo combinaciones...");
+        System.out.println("\nImprimiendo combinaciones...");
         printPhrases(phrases);
 
     }
