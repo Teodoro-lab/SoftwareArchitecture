@@ -1,4 +1,4 @@
-package PipesAndFilters;
+package org.PipesAndFilters;
 
 public abstract class Filter {
     private Pipe nextPipe;

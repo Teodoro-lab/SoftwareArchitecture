@@ -1,8 +1,8 @@
-package KWIC;
+package org.filter;
 
 import java.util.Arrays;
 
-import PipesAndFilters.Filter;
+import org.PipesAndFilters.Filter;
 
 public class Alphabetizer extends Filter {
 

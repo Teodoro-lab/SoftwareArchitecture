@@ -1,6 +1,6 @@
-package KWIC;
+package org.filter;
 
-import PipesAndFilters.Filter;
+import org.PipesAndFilters.Filter;
 
 public class Combinator extends Filter {
 

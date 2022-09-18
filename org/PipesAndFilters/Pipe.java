@@ -1,4 +1,4 @@
-package PipesAndFilters;
+package org.PipesAndFilters;
 
 public class Pipe {
     private Filter nextFilter;
