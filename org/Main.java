@@ -3,7 +3,7 @@ package org;
 import java.io.IOException;
 import java.util.Scanner;
 
-import org.PipesAndFilters.Structure;
+import org.PipesAndFilters.FilterPipeline;
 import org.PipesAndFilters.exceptions.ConfigFileErrorException;
 import org.PipesAndFilters.exceptions.FilterCreationAbortedException;
 import org.PipesAndFilters.exceptions.FilterExecutionException;
@@ -29,11 +29,11 @@ class Main {
         System.out.println("Ingrese la frase");
         String input = readInputString();
 
-        Structure struct = new Structure();
+        FilterPipeline struct = new FilterPipeline();
         try {
 
-            struct.parseConfig("org/config/config.json");
-            struct.sendInput(input);
+            structure.parseConfig("org/config/config.json");
+            structure.sendInput(input);
             Object returnedObj = struct.getOutput();
             String[] phrases = (String[]) returnedObj;
             System.out.println("\nImprimiendo combinaciones...");
@@ -42,6 +42,8 @@ class Main {
         } catch (IOException | ParseException | ConfigFileErrorException | FilterCreationAbortedException
                 | FilterExecutionException e) {
             System.out.println(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

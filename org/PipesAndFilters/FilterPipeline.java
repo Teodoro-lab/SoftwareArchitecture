@@ -1,10 +1,7 @@
 package org.PipesAndFilters;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -12,11 +9,9 @@ import org.PipesAndFilters.exceptions.ConfigFileErrorException;
 import org.PipesAndFilters.exceptions.FilterCreationAbortedException;
 import org.PipesAndFilters.exceptions.FilterExecutionException;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class Structure {
+public class FilterPipeline {
 
     private Pipe inPipe;
     private Pipe outPipe;
@@ -56,13 +51,13 @@ public class Structure {
     private void populateFiltersAndPipes(Iterator<?> phasesJson, Filter[] filters, Pipe[] pipes)
             throws FilterCreationAbortedException, ClassNotFoundException {
 
-        Map phaseInformation;
+        Map<String, String> phaseInformation;
 
         while (phasesJson.hasNext()) {
             phaseInformation = ((Map) phasesJson.next());
 
-            String className = (String) phaseInformation.get("class");
-            int order = Integer.parseInt((String) phaseInformation.get("Order"));
+            String className = phaseInformation.get("class");
+            int order = Integer.parseInt(phaseInformation.get("order"));
 
             FilterManager filterManager = new FilterManager();
             filters[order - 1] = filterManager.getFilterInstance(className);
@@ -76,12 +71,13 @@ public class Structure {
             throws FileNotFoundException, IOException, ParseException, FilterCreationAbortedException,
             ConfigFileErrorException, ClassNotFoundException {
 
-        Iterator<?> phasesJson = new JSONReader(path).getJSONPhases();
+        JSONArray phasesJson = new JSONReader(path).getJSONPhases();
+        Iterator<?> phasesIter = phasesJson.iterator();
 
         Filter[] filters = new Filter[phasesJson.size()];
         Pipe[] pipes = new Pipe[phasesJson.size() + 1];
 
-        populateFiltersAndPipes(phasesJson, filters, pipes);
+        populateFiltersAndPipes(phasesIter, filters, pipes);
         joinUpPipesFilters(filters, pipes);
 
         this.inPipe = pipes[0];

@@ -1,7 +1,6 @@
 package org.PipesAndFilters;
 
 import java.io.FileReader;
-import java.util.Iterator;
 
 import org.PipesAndFilters.exceptions.ConfigFileErrorException;
 import org.json.simple.JSONArray;
@@ -19,7 +18,7 @@ public class JSONReader {
         return CONFIG_PATH;
     }
 
-    public Object[] getJSONPhases() throws ConfigFileErrorException {
+    public JSONArray getJSONPhases() throws ConfigFileErrorException {
         Object obj;
 
         try {
@@ -31,20 +30,6 @@ public class JSONReader {
 
         JSONArray phasesJson = (JSONArray) jsonConfig.get("phases");
 
-        return phasesJson.toArray();
-    }
-
-    public static void main(String[] args) {
-        JSONReader filReader = new JSONReader("org/config/config.json");
-        try {
-            Object[] obj = filReader.getJSONPhases();
-            for (Object object : obj) {
-                System.out.println((String) object);
-            }
-        } catch (ConfigFileErrorException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        return phasesJson;
     }
 }
