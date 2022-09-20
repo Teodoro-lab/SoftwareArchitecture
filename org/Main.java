@@ -29,10 +29,10 @@ class Main {
         System.out.println("Ingrese la frase");
         String input = readInputString();
 
-        Structure struct = new Structure("org/config/config.json");
+        Structure struct = new Structure();
         try {
 
-            struct.parseConfig();
+            struct.parseConfig("org/config/config.json");
             struct.sendInput(input);
             Object returnedObj = struct.getOutput();
             String[] phrases = (String[]) returnedObj;
