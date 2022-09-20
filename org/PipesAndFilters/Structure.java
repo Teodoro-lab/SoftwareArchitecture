@@ -71,7 +71,7 @@ public class Structure {
             Constructor<?> objConstructor = getFilterTypeConstructor(objClass);
             filter = createFilterInstance(objConstructor);
         } catch (Exception e) {
-            throw new FilterCreationAbortedException(e.getMessage());
+            throw new FilterCreationAbortedException("Your config JSON contains an error:" + e.getMessage());
         }
 
         return filter;
@@ -99,15 +99,8 @@ public class Structure {
         return phasesJson;
     }
 
-    public void parseConfig()
-            throws FileNotFoundException, IOException, ParseException, FilterCreationAbortedException,
-            ConfigFileErrorException {
-
-        JSONArray phasesJson = getPhases();
-
-        int numOfFilters = phasesJson.size();
-        Filter[] filters = new Filter[numOfFilters];
-        Pipe[] pipes = new Pipe[numOfFilters + 1];
+    private void populateFiltersAndPipes(JSONArray phasesJson, Filter[] filters, Pipe[] pipes)
+            throws FilterCreationAbortedException {
 
         Iterator<?> itr2 = phasesJson.iterator();
         Iterator<Map.Entry> itr1;
@@ -122,11 +115,22 @@ public class Structure {
             pipes[order - 1] = new Pipe();
         }
 
-        pipes[numOfFilters] = new Pipe();
+        pipes[filters.length] = new Pipe();
+    }
+
+    public void parseConfig()
+            throws FileNotFoundException, IOException, ParseException, FilterCreationAbortedException,
+            ConfigFileErrorException {
+
+        JSONArray phasesJson = getPhases();
+
+        Filter[] filters = new Filter[phasesJson.size()];
+        Pipe[] pipes = new Pipe[phasesJson.size() + 1];
+
+        populateFiltersAndPipes(phasesJson, filters, pipes);
         joinUpPipesFilters(filters, pipes);
 
         this.inPipe = pipes[0];
-        this.outPipe = pipes[numOfFilters];
+        this.outPipe = pipes[phasesJson.size()];
     }
-
 }
