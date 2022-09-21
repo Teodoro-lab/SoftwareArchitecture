@@ -26,7 +26,8 @@ public class FilterManager {
         return (Filter) object;
     }
 
-    public Filter getFilterInstance(String className) throws FilterCreationAbortedException, ClassNotFoundException {
+    public Filter getFilterInstance(String className)
+            throws FilterCreationAbortedException, ClassNotFoundException, NoSuchMethodException {
         Filter filter;
 
         try {
@@ -35,8 +36,12 @@ public class FilterManager {
             filter = getFilterTypeInstance(objConstructor);
         } catch (ClassNotFoundException e) {
             throw e;
+        } catch (NoSuchMethodException e) {
+            throw e;
         } catch (Exception e) {
-            throw new FilterCreationAbortedException("Your config JSON may contain an errors:" + e.getMessage());
+            throw new FilterCreationAbortedException(
+                    "The definitions of your classes may contain errors when calling a constructor or accesing a method:"
+                            + e.getMessage());
         }
 
         return filter;

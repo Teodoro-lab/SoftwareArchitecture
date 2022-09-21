@@ -1,16 +1,19 @@
 package org.PipesAndFilters;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
-import org.PipesAndFilters.exceptions.ConfigFileErrorException;
+import org.PipesAndFilters.exceptions.JSONParseException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-public class JSONReader {
+public class ConfigReader {
     private final String CONFIG_PATH;
 
-    public JSONReader(String configPath) {
+    public ConfigReader(String configPath) {
         this.CONFIG_PATH = configPath;
     }
 
@@ -18,14 +21,16 @@ public class JSONReader {
         return CONFIG_PATH;
     }
 
-    public JSONArray getJSONPhases() throws ConfigFileErrorException {
+    public JSONArray getJSONPhases() throws FileNotFoundException, IOException, JSONParseException {
         Object obj;
 
         try {
             obj = new JSONParser().parse(new FileReader(CONFIG_PATH));
-        } catch (Exception e) {
-            throw new ConfigFileErrorException(e.getMessage());
+        } catch (ParseException e) {
+            throw new JSONParseException(e.getPosition(), e.getErrorType(), e.getUnexpectedObject(),
+                    "Your JSON config file contains errors:");
         }
+
         JSONObject jsonConfig = (JSONObject) obj;
 
         JSONArray phasesJson = (JSONArray) jsonConfig.get("phases");

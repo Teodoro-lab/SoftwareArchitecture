@@ -5,11 +5,11 @@
 			"class": "org.filter.Tokenizer"
 		},
 		{
-			"order": "3",
+			"order": "2",
 			"class": "org.filter.Combinator"
 		},
 		{
-			"order": "2",
+			"order": "3",
 			"class": "org.filter.Alphabetizer"
 		}
 	]

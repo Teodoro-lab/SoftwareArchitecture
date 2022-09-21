@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.PipesAndFilters.FilterPipeline;
-import org.PipesAndFilters.exceptions.ConfigFileErrorException;
 import org.PipesAndFilters.exceptions.FilterCreationAbortedException;
 import org.PipesAndFilters.exceptions.FilterExecutionException;
 import org.json.simple.parser.ParseException;
@@ -29,20 +28,27 @@ class Main {
         System.out.println("Ingrese la frase");
         String input = readInputString();
 
-        FilterPipeline struct = new FilterPipeline();
+        FilterPipeline pipeline = new FilterPipeline();
         try {
 
-            structure.parseConfig("org/config/config.json");
-            structure.sendInput(input);
-            Object returnedObj = struct.getOutput();
+            pipeline.parseConfig("org/config/config.json");
+            pipeline.sendInput(input);
+            Object returnedObj = pipeline.getOutput();
             String[] phrases = (String[]) returnedObj;
             System.out.println("\nImprimiendo combinaciones...");
             printPhrases(phrases);
 
-        } catch (IOException | ParseException | ConfigFileErrorException | FilterCreationAbortedException
-                | FilterExecutionException e) {
-            System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } catch (IOException | FilterCreationAbortedException
+                | FilterExecutionException e) {
             e.printStackTrace();
         }
     }

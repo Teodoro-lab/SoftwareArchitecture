@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.PipesAndFilters.exceptions.ConfigFileErrorException;
 import org.PipesAndFilters.exceptions.FilterCreationAbortedException;
 import org.PipesAndFilters.exceptions.FilterExecutionException;
 import org.json.simple.JSONArray;
@@ -49,7 +48,7 @@ public class FilterPipeline {
     }
 
     private void populateFiltersAndPipes(Iterator<?> phasesJson, Filter[] filters, Pipe[] pipes)
-            throws FilterCreationAbortedException, ClassNotFoundException {
+            throws FilterCreationAbortedException, ClassNotFoundException, NoSuchMethodException {
 
         Map<String, String> phaseInformation;
 
@@ -69,9 +68,9 @@ public class FilterPipeline {
 
     public void parseConfig(String path)
             throws FileNotFoundException, IOException, ParseException, FilterCreationAbortedException,
-            ConfigFileErrorException, ClassNotFoundException {
+            ClassNotFoundException, NoSuchMethodException {
 
-        JSONArray phasesJson = new JSONReader(path).getJSONPhases();
+        JSONArray phasesJson = new ConfigReader(path).getJSONPhases();
         Iterator<?> phasesIter = phasesJson.iterator();
 
         Filter[] filters = new Filter[phasesJson.size()];
